@@ -19,7 +19,8 @@
             android:text="보호자에게 연락"
             tools:layout_editor_absoluteX="133dp"
             tools:layout_editor_absoluteY="48dp"
-            android:id="@+id/button4" />
+            android:id="@+id/button4"
+            android:onClick="callGuardian"/>
 
         <Button
             android:id="@+id/button3"
@@ -30,7 +31,8 @@
             tools:layout_editor_absoluteX="148dp"
             tools:layout_editor_absoluteY="140dp"
             android:layout_above="@+id/button2"
-            android:layout_alignStart="@+id/button2" />
+            android:layout_alignStart="@+id/button2"
+            android:onClick="callDriver"/>
 
         <Button
             android:id="@+id/button2"
@@ -41,7 +43,8 @@
             android:layout_marginBottom="82dp"
             android:text="택시"
             tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="231dp" />
+            tools:layout_editor_absoluteY="231dp"
+            android:onClick="callTaxi"/>
 
         <Button
             android:id="@+id/button"
@@ -52,7 +55,8 @@
             android:layout_marginBottom="61dp"
             android:text="더 마실거에요"
             tools:layout_editor_absoluteX="139dp"
-            tools:layout_editor_absoluteY="331dp" />
+            tools:layout_editor_absoluteY="331dp"
+            android:onClick="returnHome"/>
     </RelativeLayout>
 
 
