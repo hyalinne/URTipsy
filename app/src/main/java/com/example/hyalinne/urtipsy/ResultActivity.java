@@ -90,7 +90,7 @@ public class ResultActivity extends AppCompatActivity {
                     List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
                     String addrline = addressList.get(0).getAddressLine(0);
                     Toast.makeText(getApplicationContext(), addrline, Toast.LENGTH_SHORT).show();
-                    sendSMS("01033535553", addrline);
+                    SMSManager.sendSMS(getApplicationContext(), "01033535553", addrline);
                 } catch(IOException e) {
 
                 }
@@ -115,14 +115,5 @@ public class ResultActivity extends AppCompatActivity {
             return;
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, ll);
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, ll);
-    }
-
-    public void sendSMS(String smsNumber, String smsText){
-        Toast.makeText(getApplicationContext(), smsNumber + " " + smsText, Toast.LENGTH_SHORT).show();
-        PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0, new Intent("SMS_SENT_ACTION"), 0);
-        PendingIntent deliveredIntent = PendingIntent.getBroadcast(this, 0, new Intent("SMS_DELIVERED_ACTION"), 0);
-
-        SmsManager mSmsManager = SmsManager.getDefault();
-        mSmsManager.sendTextMessage(smsNumber, null, smsText, sentIntent, deliveredIntent);
     }
 }

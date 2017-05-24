@@ -8,16 +8,19 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="보호자인증" />
+        android:text="보호자인증"
+        android:onClick="goAuthorizeGuardian"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="주소등록"/>
+        android:text="주소등록"
+        android:onClick="goRegisterAddress"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="앱정보"/>
+        android:text="앱정보"
+        android:onClick="goApplicationInfo"/>
 
 </LinearLayout>

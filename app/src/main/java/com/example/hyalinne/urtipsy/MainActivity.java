@@ -133,6 +133,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* setting onclick method */
+
+    public void goAuthorizeGuardian() {
+        startActivity(new Intent(this, AuthorizeActivity.class));
+    }
+
+    public void goRegisterAddress() {
+
+    }
+
+    public void goApplicationInfo() {
+
+    }
+
     public static class ReportFragment extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
         private TextView tvDate;
