@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(HomeFragment.super.getContext(), MeasureActivity.class);
+                    Intent intent = new Intent(getContext(), MeasureActivity.class);
                     startActivity(intent);
                 }
             });
@@ -120,7 +120,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_setting, container, false);
+            final View rootView = inflater.inflate(R.layout.fragment_setting, container, false);
+            Button agBtn = (Button)rootView.findViewById(R.id.authorizeGuardianBtn);
+            agBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(), AuthorizeActivity.class));
+                }
+            });
             return rootView;
         }
 
@@ -131,20 +138,6 @@ public class MainActivity extends AppCompatActivity {
             fragment.setArguments(args);
             return fragment;
         }
-    }
-
-    /* setting onclick method */
-
-    public void goAuthorizeGuardian() {
-        startActivity(new Intent(this, AuthorizeActivity.class));
-    }
-
-    public void goRegisterAddress() {
-
-    }
-
-    public void goApplicationInfo() {
-
     }
 
     public static class ReportFragment extends Fragment {
