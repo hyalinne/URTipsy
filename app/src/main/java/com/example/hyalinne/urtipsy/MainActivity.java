@@ -2,6 +2,7 @@ package com.example.hyalinne.urtipsy;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -126,6 +127,20 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(getContext(), AuthorizeActivity.class));
+                }
+            });
+            Button mapBtn = (Button)rootView.findViewById(R.id.registerAddress);
+            mapBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(), MapsActivity.class));
+                }
+            });
+            Button appInfoBtn = (Button)rootView.findViewById(R.id.applicationInfo);
+            appInfoBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(), ApplicationInfo.class));
                 }
             });
             return rootView;
