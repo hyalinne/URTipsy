@@ -5,5 +5,52 @@
     android:layout_height="match_parent"
     tools:context="com.example.hyalinne.urtipsy.InformationActivity">
 
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="보호자 번호"
+    android:textSize="25dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:id="@+id/gpTextView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="01033535553"
+        android:textSize="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/gpTextView"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/guardianPhoneTextView"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="주소"
+        android:textSize="25dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
+        android:id="@+id/adrTextView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="경기도 용인시"
+        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/adrTextView"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:text="초기화"
+        android:textSize="25dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="28dp"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

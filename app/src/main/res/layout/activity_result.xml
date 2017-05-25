@@ -7,8 +7,8 @@
     tools:context="com.example.hyalinne.urtipsy.ResultActivity">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="368dp"
+        android:layout_height="495dp"
         android:id="@+id/resultLayout">
 
         <TextView
@@ -43,6 +43,23 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="213dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="현재 위치"
+            android:id="@+id/textView2"
+            android:layout_marginTop="80dp"
+            android:layout_below="@+id/penaltyWarning"
+            android:layout_alignEnd="@+id/penaltyWarning" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addressTv"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp" />
 
 
     </RelativeLayout>
