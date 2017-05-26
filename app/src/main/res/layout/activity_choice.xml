@@ -1,66 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.hyalinne.urtipsy.ChoiceActivity">
 
-    <RelativeLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp">
+    <Button
+        android:background="#FFFFFF"
+        android:layout_width="320dp"
+        android:layout_height="100dp"
+        android:text="보호자에게 연락"
+        android:textSize="28dp"
+        android:id="@+id/button4"
+        android:onClick="callGuardian"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/telephone"
+        android:padding="20dp"
+        android:drawablePadding="15dp"/>
 
-        <Button
-            android:background="#FFFFFF"
-            android:layout_width="320dp"
-            android:layout_height="100dp"
-            android:text="보호자에게 연락"
-            android:textSize="28dp"
-            android:id="@+id/button4"
-            android:onClick="callGuardian"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="25dp"
-            android:drawableLeft="@drawable/telephone"/>
+    <Button
+        android:background="#FFFFFF"
+        android:id="@+id/button3"
+        android:layout_width="320dp"
+        android:layout_height="100dp"
+        android:text="대리운전 호출"
+        android:textSize="30dp"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="140dp"
+        android:onClick="callDriver"
+        android:layout_below="@+id/button4"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/rent_a_car"
+        android:padding="25dp"/>
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="320dp"
-            android:layout_height="100dp"
-            android:text="대리운전 호출"
-            android:textSize="30dp"
-            tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="140dp"
-            android:onClick="callDriver"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_below="@+id/button4"
-            android:drawableLeft="@drawable/rent_a_car"/>
+    <Button
+        android:background="#FFFFFF"
+        android:id="@+id/button2"
+        android:layout_width="320dp"
+        android:layout_height="100dp"
+        android:text="택시 호출"
+        android:textSize="30dp"
+        android:layout_below="@+id/button3"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:onClick="callTaxi"
+        android:drawableStart="@drawable/taxi_driver"
+        android:padding="30dp"
+        android:drawablePadding="-10dp"/>
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="320dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:text="택시"
-            android:textSize="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_below="@+id/button3"
-            android:onClick="callTaxi"/>
+    <Button
+        android:background="#FFFFFF"
+        android:id="@+id/button"
+        android:layout_width="320dp"
+        android:layout_height="100dp"
+        android:text="더 마실거에요"
+        android:textSize="28dp"
+        android:onClick="returnHome"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:drawableStart="@drawable/beer"
+        android:padding="30dp" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="320dp"
-            android:layout_height="100dp"
-            android:text="더 마실거에요"
-            android:textSize="20dp"
-            android:layout_marginLeft="20dp"
-            android:onClick="returnHome"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/button2"
-            android:layout_alignParentStart="true" />
-
-    </RelativeLayout>
-
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

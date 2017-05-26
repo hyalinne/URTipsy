@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="320dp"
+        android:layout_height="100dp"
         android:text="보호자인증"
-        android:id="@+id/authorizeGuardianBtn"/>
+        android:background="#fff"
+        android:textColor="#000"
+        android:textSize="35dp"
+        android:id="@+id/authorizeGuardianBtn"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:padding="30dp"
+        android:drawableStart="@drawable/padlock_64"/>
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="320dp"
+        android:layout_height="100dp"
         android:text="주소등록"
-        android:id="@+id/registerAddress"/>
+        android:background="#fff"
+        android:textColor="#000"
+        android:textSize="35dp"
+        android:id="@+id/registerAddress"
+        android:layout_below="@+id/authorizeGuardianBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:padding="30dp"
+        android:drawableStart="@drawable/map_64"/>
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="앱정보"
-        android:id="@+id/applicationInfo"/>
+        android:layout_width="320dp"
+        android:layout_height="100dp"
+        android:text="앱 정보"
+        android:background="#fff"
+        android:textColor="#000"
+        android:textSize="35dp"
+        android:id="@+id/applicationInfo"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/registerAddress"
+        android:layout_centerHorizontal="true"
+        android:padding="30dp"
+        android:drawableStart="@drawable/settings_64"/>
 
-</LinearLayout>
+</RelativeLayout>
