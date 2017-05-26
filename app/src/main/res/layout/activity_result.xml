@@ -7,57 +7,52 @@
     tools:context="com.example.hyalinne.urtipsy.ResultActivity"
     android:id="@+id/resultLayout">
 
-    <TextView
-        android:id="@+id/penaltyWarning"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="150~300"
-        tools:layout_editor_absoluteX="163dp"
-        tools:layout_editor_absoluteY="190dp"
-        android:layout_above="@+id/resultBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="78dp" />
+        android:src="@drawable/standing_up_man_yellow"
+        android:layout_centerVertical="true"
+        android:id="@+id/resultImageView" />
 
     <TextView
         android:id="@+id/measureValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="123"
-        tools:layout_editor_absoluteX="180dp"
-        tools:layout_editor_absoluteY="127dp"
-        android:layout_above="@+id/penaltyWarning"
-        android:layout_centerHorizontal="true" />
+        android:textSize="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:id="@+id/penaltyWarning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="150~300만원의 벌금"
+        android:textSize="20dp"
+        android:layout_marginRight="50dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/resultBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="320dp"
+        android:layout_height="80dp"
         android:text="다음"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="270dp"
-        android:layout_alignParentBottom="true"
+        android:textSize="30dp"
+        android:textColor="#fff"
+        android:background="#08bb8a"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="202dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="현재 위치"
-        android:id="@+id/textView2"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp"
-        android:layout_above="@+id/resultBtn"
-        android:layout_alignStart="@+id/penaltyWarning"
-        android:layout_marginBottom="23dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/addressTv"
-        android:layout_below="@+id/textView2"
+        android:id="@+id/currentAddressTV"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp" />
-
+        android:layout_marginBottom="25dp" />
 
 </RelativeLayout>

@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#fff"
     tools:context="com.example.hyalinne.urtipsy.MainActivity$HomeFragment">
 
     <TextView
@@ -28,24 +29,23 @@
         android:layout_centerHorizontal="true"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
         android:src="@drawable/main1"
         android:id="@+id/mainImageView"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_centerVertical="true"/>
 
     <Button
         android:id="@+id/toMeasureBtn"
-        android:layout_width="310dp"
+        android:layout_width="300dp"
         android:layout_height="80dp"
         android:background="#08bb8a"
         android:text="측정"
         android:textColor="#fff"
         android:textSize="35dp"
         android:layout_below="@+id/mainImageView"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

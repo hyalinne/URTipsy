@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,7 @@ public class ResultActivity extends AppCompatActivity {
 
         TextView measureValue = (TextView)findViewById(R.id.measureValue);
         TextView penaltyWarning = (TextView)findViewById(R.id.penaltyWarning);
+        ImageView person = (ImageView)findViewById(R.id.resultImageView);
 
         // 알콜 수치
         measureValue.setText(String.valueOf(alcohol));
@@ -60,10 +62,9 @@ public class ResultActivity extends AppCompatActivity {
             penaltyWarning.setText("150~300만원의 벌금");
         } else if(100 < alcohol && alcohol <= 200) {
             getLocation();
-            penaltyWarning.setText("300~400만원의 벌금");
-            ((RelativeLayout)findViewById(R.id.resultLayout)).setBackgroundColor(Color.rgb(255,255,200));
+            penaltyWarning.setText("벌금\n300~400만");
+            person.setImageResource(R.drawable.standing_up_man_orange);
         }
-        // ...
     }
 
     private void getLocation() {
@@ -79,7 +80,7 @@ public class ResultActivity extends AppCompatActivity {
                 addressList = geocoder.getFromLocation(latitude, longitude, 1);
                 if(addressList.size() == 0) return;
                 String addrline = addressList.get(0).getAddressLine(0);
-                TextView tv = (TextView)findViewById(R.id.addressTv);
+                TextView tv = (TextView)findViewById(R.id.currentAddressTV);
                 tv.setText(addrline);
                 SMSManager.sendSMS(getApplicationContext(), "01033535553", addrline);
             } catch (IOException e) {

@@ -13,9 +13,9 @@
         android:textColor="#000"
         android:textSize="35dp"
         android:id="@+id/authorizeGuardianBtn"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/registerAddress"
+        android:layout_marginBottom="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
         android:padding="30dp"
         android:drawableStart="@drawable/padlock_64"/>
 
@@ -27,9 +27,8 @@
         android:textColor="#000"
         android:textSize="35dp"
         android:id="@+id/registerAddress"
-        android:layout_below="@+id/authorizeGuardianBtn"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_centerVertical="true"
         android:padding="30dp"
         android:drawableStart="@drawable/map_64"/>
 
@@ -45,6 +44,7 @@
         android:layout_below="@+id/registerAddress"
         android:layout_centerHorizontal="true"
         android:padding="30dp"
-        android:drawableStart="@drawable/settings_64"/>
+        android:drawableStart="@drawable/settings_64"
+        android:drawablePadding="-15dp"/>
 
 </RelativeLayout>
