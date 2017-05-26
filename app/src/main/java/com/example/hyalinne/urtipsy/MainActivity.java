@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
                 Integer today = mCal.get(Calendar.DAY_OF_MONTH);
                 String sToday = String.valueOf(today);
                 if (sToday.equals(getItem(position))) { //오늘 day 텍스트 컬러 변경
-                    holder.tvItemGridView.setTextColor(Color.CYAN);
+                    holder.tvItemGridView.setTextColor(Color.rgb(13,127,96));
                 }
                 return convertView;
             }

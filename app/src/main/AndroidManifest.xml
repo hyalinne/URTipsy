@@ -32,8 +32,17 @@
         <activity android:name=".ResultActivity" />
         <activity android:name=".ChoiceActivity" />
         <activity android:name=".WaitingActivity" />
-        <activity android:name=".AuthorizeActivity" />
-        <activity android:name=".InformationActivity" />
+        <activity android:name=".AuthorizeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
+        <activity android:name=".InformationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

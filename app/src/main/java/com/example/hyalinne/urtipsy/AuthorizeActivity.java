@@ -1,14 +1,15 @@
 package com.example.hyalinne.urtipsy;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class AuthorizeActivity extends Activity {
+public class AuthorizeActivity extends AppCompatActivity {
 
     private EditText guardianNumberET;
     private EditText authorizationNumberET;
@@ -21,6 +22,10 @@ public class AuthorizeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorize);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
 
         pref = getSharedPreferences("Setting", MODE_PRIVATE);
         if(pref.getString("Guardian", "0").equals("0"))
