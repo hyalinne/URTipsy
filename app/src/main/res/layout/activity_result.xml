@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/standing_up_man_yellow"
+        android:src="@drawable/standing_up_man"
         android:layout_centerVertical="true"
         android:id="@+id/resultImageView" />
 
@@ -18,7 +18,7 @@
         android:id="@+id/measureValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="123"
+        android:text="1"
         android:textSize="50dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -28,9 +28,10 @@
         android:id="@+id/penaltyWarning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="150~300만원의 벌금"
-        android:textSize="20dp"
-        android:layout_marginRight="50dp"
+        android:text="벌금\n"
+        android:textAlignment="center"
+        android:textSize="25dp"
+        android:layout_marginRight="30dp"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true" />
 

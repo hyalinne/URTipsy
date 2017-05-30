@@ -1,35 +1,28 @@
 package com.example.hyalinne.urtipsy;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 public class ResultActivity extends AppCompatActivity {
+    private final String sendMsg = "보호자님! URTipsy 사용자가 술을 드셨습니다.\n";
+    private final String addMsg = "현재 위치 : ";
 
     private SharedPreferences pref;
 
     private GpsInfo gps;
+
+    private String addrline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +31,10 @@ public class ResultActivity extends AppCompatActivity {
 
         pref = getSharedPreferences("Data", MODE_PRIVATE);
         gps = new GpsInfo(ResultActivity.this);
+        addrline = null;
         setPenalty();
 
-        ((Button)findViewById(R.id.resultBtn)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.resultBtn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), ChoiceActivity.class));
@@ -51,45 +45,69 @@ public class ResultActivity extends AppCompatActivity {
     public void setPenalty() {
         int alcohol = Integer.valueOf(pref.getString("measureData", "0"));
 
-        TextView measureValue = (TextView)findViewById(R.id.measureValue);
-        TextView penaltyWarning = (TextView)findViewById(R.id.penaltyWarning);
-        ImageView person = (ImageView)findViewById(R.id.resultImageView);
+        String msg;
+
+        TextView measureValue = (TextView) findViewById(R.id.measureValue);
+        TextView penaltyWarning = (TextView) findViewById(R.id.penaltyWarning);
+        ImageView person = (ImageView) findViewById(R.id.resultImageView);
 
         // 알콜 수치
         measureValue.setText(String.valueOf(alcohol));
+
+        getLocation();
+        if(addrline != null) {
+            msg = sendMsg + addMsg + addrline;
+        } else {
+            msg = sendMsg;
+        }
         // 알콜 수치에 따른 벌금 및 색상 변경
-        if(alcohol <= 100) {
-            penaltyWarning.setText("150~300만원의 벌금");
+        if(0 < alcohol  && alcohol <= 50) {
+            // nothing
+        } else if(50 < alcohol && alcohol <= 100) {
+            penaltyWarning.setText("벌금\n150~300만");
+            person.setImageResource(R.drawable.standing_up_man_yellow);
         } else if(100 < alcohol && alcohol <= 200) {
             getLocation();
             penaltyWarning.setText("벌금\n300~400만");
+            person.setImageResource(R.drawable.standing_up_man_yellow);
+        } else if(200 < alcohol && alcohol <= 300) {
+            penaltyWarning.setText("벌금\n400~500만");
             person.setImageResource(R.drawable.standing_up_man_orange);
+            SMSManager.sendSMS(getApplicationContext(), "01033535553", msg);
+        } else if(300 < alcohol && alcohol <= 400) {
+            getLocation();
+            penaltyWarning.setText("벌금\n500~600만");
+            person.setImageResource(R.drawable.standing_up_man_orange);
+            SMSManager.sendSMS(getApplicationContext(), "01033535553", msg);
+        } else if(400 < alcohol && alcohol <= 500) {
+            getLocation();
+            penaltyWarning.setText("벌금\n600~700만");
+            person.setImageResource(R.drawable.standing_up_man_red);
+            SMSManager.sendSMS(getApplicationContext(), "01033535553", msg);
+        } else if(500 < alcohol) {
+            getLocation();
+            penaltyWarning.setText("벌금\n600~700만");
+            person.setImageResource(R.drawable.standing_up_man_red);
+            SMSManager.sendSMS(getApplicationContext(), "01033535553", msg);
+        } else {
+            // error
         }
     }
 
     private void getLocation() {
-        // GPS 사용유무 가져오기
-        if (gps.isGetLocation()) {
+        double latitude = gps.getLatitude();
+        double longitude = gps.getLongitude();
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.KOREAN);
 
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.KOREAN);
-
-            try {
-                List<Address> addressList = null;
-                addressList = geocoder.getFromLocation(latitude, longitude, 1);
-                if(addressList.size() == 0) return;
-                String addrline = addressList.get(0).getAddressLine(0);
-                TextView tv = (TextView)findViewById(R.id.currentAddressTV);
-                tv.setText(addrline);
-                SMSManager.sendSMS(getApplicationContext(), "01033535553", addrline);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            // GPS 를 사용할수 없으므로
-            gps.showSettingsAlert();
-            getLocation();
+        try {
+            List<Address> addressList = null;
+            addressList = geocoder.getFromLocation(latitude, longitude, 1);
+            if(addressList.size() == 0) return;
+            addrline = addressList.get(0).getAddressLine(0);
+            TextView tv = (TextView)findViewById(R.id.currentAddressTV);
+            tv.setText(addrline);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

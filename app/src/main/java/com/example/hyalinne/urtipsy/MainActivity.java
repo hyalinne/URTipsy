@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -73,7 +75,13 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
 
-        String[] permissions = new String[]{android.Manifest.permission.SEND_SMS, android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CALL_PHONE};
+        String[] permissions = new String[]{
+                android.Manifest.permission.SEND_SMS,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.RECEIVE_SMS,
+                android.Manifest.permission.READ_PHONE_STATE,
+                android.Manifest.permission.CALL_PHONE,
+                android.Manifest.permission.BLUETOOTH};
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             for (String permission : permissions) {
                 int result = PermissionChecker.checkSelfPermission(this, permission);
@@ -176,6 +184,9 @@ public class MainActivity extends AppCompatActivity {
         private ArrayList<String> dayList;
         private GridView gridView;
         private Calendar mCal;
+        private DBHelper dbHelper;
+        private Cursor cursor;
+        private String today;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -183,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
             tvDate = (TextView) rootView.findViewById(R.id.tv_date);
             gridView = (GridView) rootView.findViewById(R.id.gridview);
 
+            dbHelper = new DBHelper(rootView.getContext(), "record.db", null, 1);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
             // 오늘에 날짜를 세팅 해준다.
             long now = System.currentTimeMillis();
             final Date date = new Date(now);

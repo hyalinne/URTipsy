@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.hyalinne.urtipsy.MeasureActivity">
+    tools:context="com.example.hyalinne.urtipsy.MeasureActivity"
+    android:background="#fff">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="블루투스로 기기와 연결해주세요."
+        android:textColor="#f00"
+        android:textSize="25dp"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/measureNotice1"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기기의 입구에 숨을 불어주세요."
+        android:textColor="#000"
+        android:textSize="25dp"
+        android:textAlignment="center"
+        android:layout_below="@+id/measureNotice1"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/measureNotice2"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/measure_image"
+        android:layout_below="@+id/measureNotice2"/>
 
 
-        <EditText
-            android:id="@+id/measureEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
-            android:hint="입력"
-            tools:layout_editor_absoluteX="171dp"
-            tools:layout_editor_absoluteY="163dp" />
-
-        <Button
-            android:id="@+id/measureBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="192dp"
-            android:text="결과창"
-            tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="249dp" />
-
-    </RelativeLayout>
-
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
