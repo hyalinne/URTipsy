@@ -28,14 +28,15 @@ public class AuthorizeActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
 
         pref = getSharedPreferences("Setting", MODE_PRIVATE);
-        if(pref.getString("Guardian", "0").equals("0"))
-            ((TextView)findViewById(R.id.checkAuthorizationText)).setText(" ");
+        if(pref.getString("Guardian", "0").equals("0")) {
+            ((TextView) findViewById(R.id.checkAuthorizationText)).setText(" ");
+        }
 
         guardianNumberET = (EditText)findViewById(R.id.guardianPhone);
         authorizationNumberET = (EditText)findViewById(R.id.authorizationNum);
         guardianNumber = "0";
         //랜덤한 번호 생성해야함
-        authorizationNumber = "2345678";
+        authorizationNumber = "734201";
         Button sendBtn = (Button)findViewById(R.id.sendGuardianBtn);
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +56,7 @@ public class AuthorizeActivity extends AppCompatActivity {
 
     public void sendAuthorizationNumber() {
         guardianNumber = guardianNumberET.getText().toString();
-        SMSManager.sendSMS(getApplicationContext(), guardianNumber, authorizationNumber);
+        SMSManager.sendSMS(getApplicationContext(), guardianNumber, "URTipsy - 보호자인증번호 : "+ authorizationNumber);
     }
 
     public void checkAuthorizationNumber() {
