@@ -8,17 +8,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 public class MeasureActivity extends AppCompatActivity {
@@ -26,28 +35,29 @@ public class MeasureActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
 
-    static final int REQUEST_ENABLE_BT = 10;
-    int mPariedDeviceCount = 0;
-    Set<BluetoothDevice> mDevices;
+    private static final int REQUEST_ENABLE_BT = 10;
+    private static final int STATE_READ = 101;
+
+    private int mPariedDeviceCount = 0;
+    private Set<BluetoothDevice> mDevices;
     // 폰의 블루투스 모듈을 사용하기 위한 오브젝트.
-    BluetoothAdapter mBluetoothAdapter;
+    private BluetoothAdapter mBluetoothAdapter;
     /**
      BluetoothDevice 로 기기의 장치정보를 알아낼 수 있는 자세한 메소드 및 상태값을 알아낼 수 있다.
      연결하고자 하는 다른 블루투스 기기의 이름, 주소, 연결 상태 등의 정보를 조회할 수 있는 클래스.
      현재 기기가 아닌 다른 블루투스 기기와의 연결 및 정보를 알아낼 때 사용.
      */
-    BluetoothDevice mRemoteDevie;
+    private BluetoothDevice mRemoteDevie;
     // 스마트폰과 페어링 된 디바이스간 통신 채널에 대응 하는 BluetoothSocket
-    BluetoothSocket mSocket = null;
-    InputStream mInputStream = null;
-    String mStrDelimiter = "\n";
-    char mCharDelimiter =  '\n';
+    private BluetoothSocket mSocket = null;
+    private InputStream mInputStream = null;
 
-    Thread mWorkerThread = null;
-    byte[] readBuffer;
-    int readBufferPosition;
+    private Thread mWorkerThread = null;
+    private Handler mHandler = null;
+    private byte[] readBuffer;
+    private int cursor;
 
-    EditText mEditReceive;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,20 +66,58 @@ public class MeasureActivity extends AppCompatActivity {
 
         pref = getSharedPreferences("Data", MODE_PRIVATE);
         editor = pref.edit();
-        editor.putInt("measureData", 128);
 
-        checkBluetooth();
+        cursor = 0;
+        readBuffer = new byte[1024];
 
-        editor.commit();
-        Button button = (Button)findViewById(R.id.goResultBtn);
+        button = (Button)findViewById(R.id.goResultBtn);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(cursor > 0) {
+                    String buf = new String(readBuffer, 0, 1024);
+                    StringTokenizer stringTokenizer = new StringTokenizer(buf, "\n");
+                    while (stringTokenizer.countTokens() > 0) {
+                        String tmpString = stringTokenizer.nextToken();
+                        editor.putString("testData", tmpString);
+                    }
+                    editor.commit();
+                }
                 startActivity(new Intent(getApplicationContext(), ResultActivity.class));
             }
         });
-    }
 
+        mWorkerThread = new Thread() {
+            public void run() {
+                byte[] buffer = new byte[1024];
+                int size = 0;
+
+                while(true) {
+                    try {
+                        size = mInputStream.read(buffer);
+                        if(size > 0) mHandler.obtainMessage(STATE_READ, size, 0, buffer).sendToTarget();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if(msg.what == STATE_READ) {
+                    byte[] buf = (byte[])msg.obj;
+                    for(int i = 0; i < msg.arg1; i++, cursor++) {
+                        readBuffer[cursor] = buf[i];
+                    }
+                }
+            }
+        };
+
+        checkBluetooth();
+    }
 
     // 블루투스 장치의 이름이 주어졌을때 해당 블루투스 장치 객체를 페어링 된 장치 목록에서 찾아내는 코드.
     BluetoothDevice getDeviceFromBondedList(String name) {
@@ -92,8 +140,8 @@ public class MeasureActivity extends AppCompatActivity {
     void connectToSelectedDevice(String selectedDeviceName) {
         // BluetoothDevice 원격 블루투스 기기를 나타냄.
         mRemoteDevie = getDeviceFromBondedList(selectedDeviceName);
-        // java.util.UUID.fromString : 자바에서 중복되지 않는 Unique 키 생성.
-        UUID uuid = java.util.UUID.fromString("00002220-0000-1000-8000-00805F9B34FB");
+        // serial protocol
+        UUID uuid = java.util.UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
         try {
             // 소켓 생성, RFCOMM 채널을 통한 연결.
@@ -101,78 +149,14 @@ public class MeasureActivity extends AppCompatActivity {
             // 이 메소드가 성공하면 스마트폰과 페어링 된 디바이스간 통신 채널에 대응하는 BluetoothSocket 오브젝트를 리턴함.
             mSocket = mRemoteDevie.createRfcommSocketToServiceRecord(uuid);
             mSocket.connect(); // 소켓이 생성 되면 connect() 함수를 호출함으로써 두기기의 연결은 완료된다.
-
+            Toast.makeText(getApplicationContext(), "연결되었습니다.", Toast.LENGTH_LONG).show();
             mInputStream = mSocket.getInputStream();
-
-            // 데이터 수신 준비.
-            beginListenForData();
-
+            mWorkerThread.start();
         }catch(Exception e) { // 블루투스 연결 중 오류 발생
             Toast.makeText(getApplicationContext(), "블루투스 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
             finish();  // App 종료
         }
-    }
-
-    // 데이터 수신(쓰레드 사용 수신된 메시지를 계속 검사함)
-    void beginListenForData() {
-        final Handler handler = new Handler();
-
-        readBufferPosition = 0;                 // 버퍼 내 수신 문자 저장 위치.
-        readBuffer = new byte[1024];            // 수신 버퍼.
-
-        // 문자열 수신 쓰레드.
-        mWorkerThread = new Thread(new Runnable()
-        {
-            @Override
-            public void run() {
-                // interrupt() 메소드를 이용 스레드를 종료시키는 예제이다.
-                // interrupt() 메소드는 하던 일을 멈추는 메소드이다.
-                // isInterrupted() 메소드를 사용하여 멈추었을 경우 반복문을 나가서 스레드가 종료하게 된다.
-                while(!Thread.currentThread().isInterrupted()) {
-                    try {
-                        // InputStream.available() : 다른 스레드에서 blocking 하기 전까지 읽은 수 있는 문자열 개수를 반환함.
-                        int byteAvailable = mInputStream.available();   // 수신 데이터 확인
-                        if(byteAvailable > 0) {                        // 데이터가 수신된 경우.
-                            byte[] packetBytes = new byte[byteAvailable];
-                            // read(buf[]) : 입력스트림에서 buf[] 크기만큼 읽어서 저장 없을 경우에 -1 리턴.
-                            mInputStream.read(packetBytes);
-                            for(int i=0; i<byteAvailable; i++) {
-                                byte b = packetBytes[i];
-                                if(b == mCharDelimiter) {
-                                    byte[] encodedBytes = new byte[readBufferPosition];
-                                    //  System.arraycopy(복사할 배열, 복사시작점, 복사된 배열, 붙이기 시작점, 복사할 개수)
-                                    //  readBuffer 배열을 처음 부터 끝까지 encodedBytes 배열로 복사.
-                                    System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
-
-                                    final String data = new String(encodedBytes, "US-ASCII");
-                                    readBufferPosition = 0;
-
-                                    handler.post(new Runnable(){
-                                        // 수신된 문자열 데이터에 대한 처리.
-                                        @Override
-                                        public void run() {
-                                            // mStrDelimiter = '\n';
-                                            mEditReceive.setText(mEditReceive.getText().toString() + data+ mStrDelimiter);
-                                        }
-
-                                    });
-                                }
-                                else {
-                                    readBuffer[readBufferPosition++] = b;
-                                }
-                            }
-                        }
-
-                    } catch (Exception e) {    // 데이터 수신 중 오류 발생.
-                        Toast.makeText(getApplicationContext(), "데이터 수신 중 오류가 발생 했습니다.", Toast.LENGTH_LONG).show();
-                        finish();            // App 종료.
-                    }
-                }
-            }
-
-        });
-
     }
 
     // 블루투스 지원하며 활성 상태인 경우.
@@ -257,8 +241,6 @@ public class MeasureActivity extends AppCompatActivity {
                 selectDevice();
         }
     }
-
-
 
     // onDestroy() : 어플이 종료될때 호출 되는 함수.
     //               블루투스 연결이 필요하지 않는 경우 입출력 스트림 소켓을 닫아줌.

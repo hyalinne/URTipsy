@@ -51,7 +51,9 @@ public class ResultActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void setPenalty() {
-        int alcohol = pref.getInt("measureData", 0);
+        // 알콜 수치
+        int alcohol = Integer.parseInt((pref.getString("testData", "120")).substring(0,3));
+        alcohol -= 100;
         String guardianNumber = pref.getString("Guardian", " ");
         String msg;
 
@@ -66,7 +68,7 @@ public class ResultActivity extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.execSQL("INSERT INTO record VALUES(null, '" + str_date + "', " + alcohol +");");
 
-        // 알콜 수치
+
         measureValue.setText(String.valueOf(alcohol));
 
         getLocation();
@@ -75,13 +77,14 @@ public class ResultActivity extends AppCompatActivity {
         } else {
             msg = sendMsg;
         }
+
         // 알콜 수치에 따른 벌금 및 색상 변경
-        if(0 < alcohol  && alcohol <= 50) {
+        if(0 < alcohol  && alcohol <= 100) {
             // nothing
-        } else if(50 < alcohol && alcohol <= 100) {
+        } else if(100 < alcohol && alcohol <= 150) {
             penaltyWarning.setText("벌금\n150~300만");
             person.setImageResource(R.drawable.standing_up_man_yellow);
-        } else if(100 < alcohol && alcohol <= 200) {
+        } else if(150 < alcohol && alcohol <= 200) {
             getLocation();
             penaltyWarning.setText("벌금\n300~400만");
             person.setImageResource(R.drawable.standing_up_man_yellow);
